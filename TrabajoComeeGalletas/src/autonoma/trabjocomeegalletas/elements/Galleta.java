@@ -28,11 +28,11 @@ public class Galleta extends Sprite {
         int x = (int)(Math.random() * (width - Galleta.WIDTH));
         int y = (int)(Math.random() * (height - Galleta.HEIGHT));
 
-        Galleta m = null;
+        Galleta g = null;
        
-         m = new Galleta(x, y,Galleta.WIDTH, Galleta.HEIGHT);
+        g = new Galleta(x, y,Galleta.WIDTH, Galleta.HEIGHT);
         
-        return m;
+        return g;
     }
     
     

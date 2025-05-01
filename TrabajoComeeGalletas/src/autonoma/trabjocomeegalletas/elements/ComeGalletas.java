@@ -8,6 +8,8 @@ import autonoma.gamebase.elements.Sprite;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 /**
  *
@@ -22,15 +24,17 @@ public class ComeGalletas extends Sprite{
     public static final int INITIAL_HEIGHT = 50;
     protected int step = 5; 
     
+    private int numeroGalletas = 0;
+    
     ///metodo contructor
     public ComeGalletas(int x, int y, int height, int width) {
         super(x, y, height, width);
         setColor(Color.BLUE);
     }
 
-    public boolean move(int direction)
+    public boolean move( ArrayList <Sprite> sprites)
     {
-        int nx = x;
+        ArrayList <int> direccion =  
         int ny = y;
         
         switch(direction)
@@ -65,6 +69,31 @@ public class ComeGalletas extends Sprite{
         
         return false;
         
+    }
+    
+    
+    public void grow(){
+    
+        this.numeroGalletas +=1;
+    }
+    
+    
+    public ArrayList <int>  buscarDireccion(){
+    
+            // Obtener la posición actual del enemigo y del personaje rosado
+            int posicionXEnemigo = enemigo.getX();
+            int posicionYEnemigo = enemigo.getY();
+            int posicionXPersonaje = personajeRosado.getX();
+            int posicionYPersonaje = personajeRosado.getY();
+
+            // Calcular la dirección en la que se debe mover el enemigo
+            int dirX = Integer.signum(posicionXPersonaje - posicionXEnemigo);
+            int dirY = Integer.signum(posicionYPersonaje - posicionYEnemigo);
+
+            // Mover al enemigo en la dirección calculada
+            enemigo.setX(posicionXEnemigo + dirX * velocidadEnemigo);
+            enemigo.setY(posicionYEnemigo + dirY * velocidadEnemigo);
+    
     }
     
     ///metodo abtrac

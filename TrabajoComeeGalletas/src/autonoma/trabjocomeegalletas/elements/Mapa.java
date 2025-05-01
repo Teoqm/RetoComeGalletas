@@ -4,6 +4,7 @@
  */
 package autonoma.trabjocomeegalletas.elements;
 
+import autonoma.gamebase.elements.Sprite;
 import autonoma.gamebase.elements.SpriteContainer;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -39,39 +40,84 @@ public class Mapa extends SpriteContainer{
     //metdod paar resibir teclas y actuar
     public void keyPressed(int code)
     {
-        if(code == KeyEvent.VK_UP |
-           code == KeyEvent.VK_DOWN |
-           code == KeyEvent.VK_LEFT |
-           code == KeyEvent.VK_RIGHT)
-        {
-            if(monstruo.move(code))
+            
+            //al moustro moverse se ve si si comio una galleta
+            if(monstruo.move(sprites))
             {
-                processMushroomsEaten();
+                prosecarGalletasComidas();
             }
-        }
+        
         
         if(code == KeyEvent.VK_G)
         {
-            addGreenMushroom();
+            addGalleta();
             refresh();
         }
         
     }
     
+    private void prosecarGalletasComidas()
+    {
+        for(int i=0; i<sprites.size(); i++)
+        {
+            if(sprites.get(i) instanceof  Galleta)
+            {
+                 Galleta galleta = ( Galleta) sprites.get(i);
+                
+                if(monstruo.checkCollision(galleta))
+                {
+                    
+                        monstruo.grow();
+                        sprites.remove(galleta);
+                }
+            }
+        }
+    }
+    
+    
     private void addGalleta()
     {
-        Mushroom m = null;
         
+        //se cre la gaalleta 
+        Galleta g = null;
+        
+        // DO WHILe dodnde se va va a dar un posicion al la nueva galleta y 
+        // se va analizar si esa galleta se encuentra lejos de 
+        do{
         try {
-            m = Mushroom.create(GreenMushroom.class, width, height);
+            ///se crea la nueva galleta 
+            g = Galleta.create(width, height);
         } catch (InstantiationException ex) {
-            Logger.getLogger(Garden.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Mapa.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            Logger.getLogger(Garden.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Mapa.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        }while(!revisarGalleta(g));
+        
+        
+        /// al ya verificar al galleta se ingelesa a la lista 
+        sprites.add(g);
+    }
+    
+    
+    //se  crea un metdod qeu va revisar si la nueva gallesta no este encima de otra
+    public boolean revisarGalleta (Galleta g){
+    
+        // se hace un for eche para ver si el nueva galleta esta encima de otra galleta
+        for(Sprite sprite : sprites)
+        {
+            /// si se hay colicion 
+             if(sprite.checkCollision(g)){ 
+               return false;
+   
+        }
+   
         }
         
-        sprites.add(m);
+       //se retorna verdadero para decir que la nueva galleta si sepuede ingresar 
+        return true;
     }
+    
     
     ///Metodo abtractos
     @Override
@@ -89,6 +135,5 @@ public class Mapa extends SpriteContainer{
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
         
-    
-    
-}
+    }
+
