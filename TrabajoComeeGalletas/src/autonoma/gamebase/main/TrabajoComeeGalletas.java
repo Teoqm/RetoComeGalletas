@@ -1,33 +1,30 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 package autonoma.gamebase.main;
 
 import autonoma.trabjocomeegalletas.elements.Mapa;
 import gnomegame.ui.GameWindow;
 
 /**
- *
- * @author mateo
+ * Clase principal que lanza la aplicacion del juego "Come Galletas".
+ * Crea la ventana del juego y carga el mapa donde se desarrolla.
  */
 public class TrabajoComeeGalletas {
 
     /**
-     * @param args the command line arguments
+     * Metodo principal que inicia el juego.
+     * @param args argumentos de linea de comandos (no usados)
      */
     public static void main(String[] args) {
-        
-        //se crea el grafico del mapa del juego
+
+        // Se crea el grafico del mapa del juego (escenario)
         Mapa mapa = new Mapa(0, 0, 500, 500);
-        
+
+        // Se crea la ventana del juego y se configura
         GameWindow window = new GameWindow();
-        window.setGarden(mapa);
-        mapa.setGraphicContainer(window);
-        window.setSize(500, 500);
-        window.setTitle("Come Galletas");
-        window.setLocationRelativeTo(null);
-        window.setVisible(true);
+        window.setGarden(mapa);                  // Se establece el mapa como el area de juego
+        mapa.setGraphicContainer(window);        // Se vincula la ventana como contenedor del mapa
+        window.setSize(500, 500);                // Se define el tamaño de la ventana
+        window.setTitle("Come Galletas");        // Titulo de la ventana
+        window.setLocationRelativeTo(null);      // Centrar ventana en pantalla
+        window.setVisible(true);                 // Hacer visible la ventana
     }
-    
 }

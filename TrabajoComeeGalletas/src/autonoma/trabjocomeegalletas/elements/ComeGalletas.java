@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package autonoma.trabjocomeegalletas.elements;
 
 import autonoma.gamebase.elements.Sprite;
@@ -9,123 +5,118 @@ import autonoma.gamebase.elements.SpriteMobile;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
-import java.awt.event.KeyEvent;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
- *
- * @author mateo
+ * Clase que representa al personaje principal "Come Galletas"
+ * que se mueve hacia la galleta mas cercana y la consume.
  */
 public class ComeGalletas extends SpriteMobile implements Runnable {
 
-    
-    
-    /// Atributos
+    // Constantes y atributos
     public static final int INITIAL_WIDTH = 50;
     public static final int INITIAL_HEIGHT = 50;
-    protected int step = 5; 
-    public int velocidad = 10;
-    protected long delay;
+    
+    protected int step = 5;
+    public int velocidad = 10; // Pixeles por movimiento
+    protected long delay;      // Tiempo entre movimientos
     private boolean running;
     private boolean paused;
     protected Thread thread;
     
     private int numeroGalletas = 0;
-    
-    ///metodo contructor
+
+    // Constructor
     public ComeGalletas(int x, int y, int height, int width) {
         super(x, y, height, width);
         setColor(Color.BLUE);
     }
 
-    public boolean move( ArrayList <Sprite> sprites)
-    {
-        
-        // Obtener la posición actual de la galleta mas cercana
-        Point posiciones = encontrarPosicionMasCercana(sprites);  
-        
-        
-        // se separa los datos y se organizan para hacer los movimientos
+    /**
+     * Metodo que mueve al personaje hacia la galleta mas cercana.
+     * @param sprites lista de posibles galletas
+     * @return true si se movio, false si no
+     */
+    public boolean move(ArrayList<Sprite> sprites) {
+        Point posiciones = encontrarPosicionMasCercana(sprites);
+        if (posiciones == null) return false;
+
         int posicionXGalleta = posiciones.x;
         int posicionYGalleta = posiciones.y;
-        int posicionXComeGalletas = x;
-        int posicionYComeGalletas = y;
 
-        // Calcular la dirección en la que se debe mover el comme galletas
-        int dirX = Integer.signum(posicionXComeGalletas - posicionXGalleta);
-        int dirY = Integer.signum(posicionYComeGalletas - posicionYGalleta);
+        // Direccion hacia la galleta (1, 0 o -1)
+        int dirX = Integer.signum(posicionXGalleta - x);
+        int dirY = Integer.signum(posicionYGalleta - y);
 
-        // Mover al enemigo en la dirección calculada
-        x = (posicionXGalleta + dirX * velocidad);
-        y = (posicionYGalleta + dirY * velocidad);
-        
-        if(!isOutOfGraphicContainer(posicionXComeGalletas, posicionYComeGalletas, width, height))
-        {
-            x = posicionXComeGalletas;
-            y = posicionYComeGalletas;
+        // Nuevo intento de posicion
+        int nuevaX = x + dirX * velocidad;
+        int nuevaY = y + dirY * velocidad;
 
-            if(gameContainer != null)
+        // Verifica si esta dentro del contenedor grafico
+        if (!isOutOfGraphicContainer(nuevaX, nuevaY, width, height)) {
+            x = nuevaX;
+            y = nuevaY;
+
+            if (gameContainer != null)
                 gameContainer.refresh();
-            
+
             return true;
         }
-        
+
         return false;
-        
     }
-    
-    
-    public void grow(){
-    
-        this.numeroGalletas +=1;
+
+    /**
+     * Aumenta el contador de galletas comidas.
+     */
+    public void grow() {
+        this.numeroGalletas += 1;
     }
-    
-    
+
+    /**
+     * Busca la posicion de la galleta mas cercana.
+     * @param sprites lista de galletas disponibles
+     * @return Point con las coordenadas de la galleta mas cercana
+     */
     public Point encontrarPosicionMasCercana(ArrayList<Sprite> sprites) {
-        
-    // Obtener la posición actual del personaje
-    int posicionXComeGalletas = x;
-    int posicionYComeGalletas = y;
-    
-    // Inicializar variables para la posición más cercana
-    Sprite posicionMasCercana = null;
-    double distanciaMinima = Double.MAX_VALUE;
-    
-    // Recorrer la lista de sprites
-    for (Sprite sprite : sprites) {
-        // Calcular la distancia entre el personaje y el sprite actual
-        int posicionXSprite = sprite.getX();
-        int posicionYSprite = sprite.getY();
-        double distancia = Math.sqrt(Math.pow(posicionXComeGalletas - posicionXSprite, 2) 
-                                 +  Math.pow(posicionYComeGalletas - posicionYSprite, 2));
-        
-        // Actualizar la posición más cercana si se encuentra una más cercana
-        if (distancia < distanciaMinima) {
-            distanciaMinima = distancia;
-            posicionMasCercana = sprite;
+        int posicionX = x;
+        int posicionY = y;
+
+        Sprite galletaMasCercana = null;
+        double distanciaMinima = Double.MAX_VALUE;
+
+        for (Sprite sprite : sprites) {
+            int sx = sprite.getX();
+            int sy = sprite.getY();
+
+            double distancia = Math.sqrt(Math.pow(posicionX - sx, 2) + Math.pow(posicionY - sy, 2));
+
+            if (distancia < distanciaMinima) {
+                distanciaMinima = distancia;
+                galletaMasCercana = sprite;
+            }
         }
-    }
-    
-    // Devolver las coordenadas de la posición más cercana
-    if (posicionMasCercana != null) {
-        return new Point(posicionMasCercana.getX(), posicionMasCercana.getY());
-    } else {
+
+        if (galletaMasCercana != null) {
+            return new Point(galletaMasCercana.getX(), galletaMasCercana.getY());
+        }
+
         return null;
     }
-    
-    }
 
-
-    //para qeu mueva el hilo
-    public void run(ArrayList <Sprite> sprites) {
-        
+    /**
+     * Metodo principal que se ejecuta cuando el hilo arranca.
+     * Mueve al personaje continuamente mientras este activo.
+     * @param sprites lista de galletas
+     */
+    public void run(ArrayList<Sprite> sprites) {
         running = true;
 
         while (isRunning()) {
             try {
                 Thread.sleep(delay);
             } catch (InterruptedException ex) {
+                Thread.currentThread().interrupt();
             }
 
             if (isPaused()) {
@@ -133,24 +124,17 @@ public class ComeGalletas extends SpriteMobile implements Runnable {
             }
 
             move(sprites);
-        }    
-    
+        }
     }
 
+    // --- METODOS DE CONTROL DE HILO ---
 
-
-
-
-
-
-    
-    ///metodo abtractos
     @Override
-    public void paint(Graphics g) {
-        g.setColor(color);
-        g.fillRect(x, y, width, height);
+    public void run() {
+        // Metodo por defecto del Runnable (no usado en esta implementacion)
+        throw new UnsupportedOperationException("No implementado directamente.");
     }
-      
+
     public boolean isRunning() {
         return running;
     }
@@ -179,11 +163,12 @@ public class ComeGalletas extends SpriteMobile implements Runnable {
         this.delay = delay;
     }
 
+    /**
+     * Dibuja el personaje en pantalla.
+     */
     @Override
-    public void run() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void paint(Graphics g) {
+        g.setColor(color);
+        g.fillRect(x, y, width, height);
     }
-        
-   
-    
 }
