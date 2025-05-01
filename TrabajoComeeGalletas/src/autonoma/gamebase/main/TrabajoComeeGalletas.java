@@ -5,6 +5,7 @@
 package autonoma.gamebase.main;
 
 import autonoma.trabjocomeegalletas.elements.Mapa;
+import gnomegame.ui.GameWindow;
 
 /**
  *
@@ -21,10 +22,10 @@ public class TrabajoComeeGalletas {
         Mapa mapa = new Mapa(0, 0, 500, 500);
         
         GameWindow window = new GameWindow();
-        window.setGarden(garden);
-        garden.setGraphicContainer(window);
+        window.setGarden(mapa);
+        mapa.setGraphicContainer(window);
         window.setSize(500, 500);
-        window.setTitle("Gnome Game");
+        window.setTitle("Come Galletas");
         window.setLocationRelativeTo(null);
         window.setVisible(true);
     }

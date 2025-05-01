@@ -6,6 +6,7 @@ package autonoma.trabjocomeegalletas.elements;
 
 import autonoma.gamebase.elements.Sprite;
 import autonoma.gamebase.elements.SpriteContainer;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
@@ -34,6 +35,7 @@ public class Mapa extends SpriteContainer{
         //SE CREA EL MOSNTRO
         monstruo.setGraphicContainer(this);
         
+        this.setColor(Color.BLACK);
         
     }
     

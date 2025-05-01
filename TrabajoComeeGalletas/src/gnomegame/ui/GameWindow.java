@@ -5,8 +5,9 @@
  */
 package gnomegame.ui;
 
-import gamebase.elements.GraphicContainer;
-import gnomegame.elements.Garden;
+
+import autonoma.gamebase.elements.GraphicContainer;
+import autonoma.trabjocomeegalletas.elements.Mapa;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
@@ -18,7 +19,7 @@ import java.awt.event.KeyEvent;
 public class GameWindow extends javax.swing.JFrame 
                         implements GraphicContainer {
 
-    protected Garden garden;
+    protected Mapa mapa;
     
     /**
      * Creates new form GameWindow
@@ -63,40 +64,24 @@ public class GameWindow extends javax.swing.JFrame
             System.exit(0);
         }
         
-        if(evt.getKeyCode() == KeyEvent.VK_UP |
-           evt.getKeyCode() == KeyEvent.VK_DOWN |
-           evt.getKeyCode() == KeyEvent.VK_LEFT |
-           evt.getKeyCode() == KeyEvent.VK_RIGHT)
-        {
-            garden.keyPressed(evt.getKeyCode());
-        }
         
         if(evt.getKeyCode() == KeyEvent.VK_G)
         {
-            garden.keyPressed(evt.getKeyCode());
+            mapa.keyPressed(evt.getKeyCode());
         }
 
-        if(evt.getKeyCode() == KeyEvent.VK_R)
-        {
-            garden.keyPressed(evt.getKeyCode());
-        }
-        
-        if(evt.getKeyCode() == KeyEvent.VK_T)
-        {
-            garden.keyPressed(evt.getKeyCode());
-        }
     }//GEN-LAST:event_formKeyPressed
 
-    public void setGarden(Garden garden) {
-        this.garden = garden;
+    public void setGarden(Mapa mapa) {
+        this.mapa = mapa;
     }
 
     @Override
     public void paint(Graphics g) {
         super.paint(g); 
     
-        if(garden != null)
-            garden.paint(g);
+        if(mapa != null)
+            mapa.paint(g);
     }
 
     @Override
