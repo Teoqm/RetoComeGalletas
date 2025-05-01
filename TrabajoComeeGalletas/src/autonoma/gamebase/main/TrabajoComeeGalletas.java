@@ -4,6 +4,8 @@
  */
 package autonoma.gamebase.main;
 
+import autonoma.trabjocomeegalletas.elements.Mapa;
+
 /**
  *
  * @author mateo
@@ -14,7 +16,17 @@ public class TrabajoComeeGalletas {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        
+        //se crea el grafico del mapa del juego
+        Mapa mapa = new Mapa(0, 0, 500, 500);
+        
+        GameWindow window = new GameWindow();
+        window.setGarden(garden);
+        garden.setGraphicContainer(window);
+        window.setSize(500, 500);
+        window.setTitle("Gnome Game");
+        window.setLocationRelativeTo(null);
+        window.setVisible(true);
     }
     
 }
