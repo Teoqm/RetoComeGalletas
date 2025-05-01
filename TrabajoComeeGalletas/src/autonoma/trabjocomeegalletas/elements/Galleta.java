@@ -20,7 +20,7 @@ public class Galleta extends Sprite {
     public Galleta(int x, int y, int height, int width) {
         super(x, y, height, width);
         
-        setColor(new Color(44,31,22));
+        setColor(new Color(163,115,81));
     }
 
     ///metodo Constructor
