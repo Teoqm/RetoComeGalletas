@@ -42,13 +42,6 @@ public class Mapa extends SpriteContainer{
     //metdod paar resibir teclas y actuar
     public void keyPressed(int code)
     {
-            
-            //al moustro moverse se ve si si comio una galleta
-            if(monstruo.move(sprites))
-            {
-                prosecarGalletasComidas();
-            }
-        
         
         if(code == KeyEvent.VK_G)
         {
@@ -58,7 +51,7 @@ public class Mapa extends SpriteContainer{
         
     }
     
-    private void prosecarGalletasComidas()
+    private void procesarGalletasComidas()
     {
         for(int i=0; i<sprites.size(); i++)
         {
@@ -85,7 +78,7 @@ public class Mapa extends SpriteContainer{
         
         // DO WHILe dodnde se va va a dar un posicion al la nueva galleta y 
         // se va analizar si esa galleta se encuentra lejos de 
-        do{
+//        do{
         try {
             ///se crea la nueva galleta 
             g = Galleta.create(width, height);
@@ -94,7 +87,7 @@ public class Mapa extends SpriteContainer{
         } catch (IllegalAccessException ex) {
             Logger.getLogger(Mapa.class.getName()).log(Level.SEVERE, null, ex);
         }
-        }while(!revisarGalleta(g));
+//        }while(!revisarGalleta(g));
         
         
         /// al ya verificar al galleta se ingelesa a la lista 
@@ -124,17 +117,36 @@ public class Mapa extends SpriteContainer{
     ///Metodo abtractos
     @Override
     public void paint(Graphics g) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            // se pinta el mapa       
+            g.setColor(color);
+            g.fillRect(x, y, width, height);
+
+            // pintar las galletas
+            for(Sprite sprite : sprites)
+            {
+                sprite.paint(g);
+            }
+
+            //pintar el montro
+            monstruo.paint(g);
+
+            //al moustro moverse se ve si si comio una galleta
+            if(monstruo.move(sprites))
+            {
+                procesarGalletasComidas();
+            }
     }
 
     @Override
     public void refresh() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if(gameContainer != null)
+                    gameContainer.refresh();    
     }
 
     @Override
     public Rectangle getBoundaries() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new Rectangle(x, y, width, height);   
+    
     }
         
     }

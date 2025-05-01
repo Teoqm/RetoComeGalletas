@@ -5,6 +5,7 @@
 package autonoma.trabjocomeegalletas.elements;
 
 import autonoma.gamebase.elements.Sprite;
+import java.awt.Color;
 import java.awt.Graphics;
 
 /**
@@ -18,6 +19,8 @@ public class Galleta extends Sprite {
 
     public Galleta(int x, int y, int height, int width) {
         super(x, y, height, width);
+        
+        setColor(new Color(44,31,22));
     }
 
     ///metodo Constructor
@@ -38,6 +41,6 @@ public class Galleta extends Sprite {
     
     @Override
     public void paint(Graphics g) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+        g.setColor(color);
+        g.fillRect(x, y, width, height);    }
 }
