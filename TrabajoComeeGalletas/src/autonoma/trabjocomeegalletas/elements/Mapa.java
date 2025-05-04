@@ -30,6 +30,7 @@ public class Mapa extends SpriteContainer {
                                     ComeGalletas.INITIAL_HEIGHT);
 
         monstruo.setGraphicContainer(this);
+        monstruo.setDelay(800); // mueve cada 0.8 segundos
         this.setColor(Color.BLACK);
     }
 

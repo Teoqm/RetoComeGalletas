@@ -17,7 +17,7 @@ public class ComeGalletas extends SpriteMobile implements Runnable {
     public static final int INITIAL_WIDTH = 50;
     public static final int INITIAL_HEIGHT = 50;
     
-    protected int step = 5;
+    protected int step = 1;
     public int velocidad = 1; // Pixeles por movimiento
     protected long delay;      // Tiempo entre movimientos
     private boolean running;
